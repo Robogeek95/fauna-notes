@@ -1,0 +1,12 @@
+[
+  {
+    "noteId": "12asha128982amajsashsjas12282129",
+    "title": "my first note",
+    "content": "In computer science, ACID (atomicity, consistency, isolation, durability) is a set of properties of database transactions intended to guarantee data validity despite errors, power failures, and other mishaps. In the context of databases, a sequence of database operations that satisfies the ACID properties (which can be perceived as a single logical operation on the data) is called a transaction. For example, a transfer of funds from one bank account to another, even involving multiple changes such as debiting one account and crediting another, is a single transaction. In 1983,[1] Andreas Reuter and Theo Härder coined the acronym ACID, building on earlier work by Jim Gray[2] who named atomicity, consistency, and durability, but not isolation, when characterizing the transaction concept. These four properties are the major guarantees of the transaction paradigm, which has influenced many aspects of development in database systems."
+  },
+  {
+    "noteId": "302shassjas12282129",
+    "title": "Atomicity",
+    "content": "Main article: Atomicity (database systems)Transactions are often composed of multiple statements. Atomicity guarantees that each transaction is treated as a single unit, which either succeeds completely, or fails completely: if any of the statements  constituting a transaction fails to complete, the entire transaction fails and the database is left unchanged. An atomic system must guarantee atomicity in each and every situation, including power failures, errors and crashes.[4] A guarantee of atomicity prevents updates to the database occurring only partially, which can cause greater problems than rejecting the whole series outright. As a consequence, the transaction cannot be observed to be in progress by another database client. At one moment in time, it has not yet happened, and at the next it has already occurred in whole (or nothing happened if the transaction was cancelled in progress). An example of an atomic transaction is a monetary transfer from bank account A to account B. It consists of two operations, withdrawing the money from account A and saving it to account B. Performing these operations in an atomic transaction ensures that the database remains in a consistent state, that is, money is neither debited nor credited if either of those two operations fail.[5]"
+  }
+]
