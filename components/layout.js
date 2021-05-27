@@ -21,17 +21,21 @@ export default function Layout({
 }) {
   const router = useRouter();
 
+  function handleLogout() {
+    router.push("/login")
+  }
+
   return (
     <Grid templateColumns={"2fr 6fr"} h="100vh">
       {/* sidebar */}
       <Grid templateRows="1fr auto">
-        <Grid templateRows="auto 1fr">
+        <Grid templateRows="auto 1fr" bg="#f1f1f1">
           <Stack
             p={4}
             spacing="6"
             sx={{ display: "grid", gridTemplateRows: "auto 1fr" }}
           >
-            <Img src="/logo.png" height="64px" width="108px" />
+            <Img src="/logo.svg" height="64px" width="108px" />
             <Button
               mt={4}
               colorScheme="blue"
@@ -50,8 +54,8 @@ export default function Layout({
           </Stack>
         </Grid>
 
-        <Flex py="3" alignItems="center" justifyContent="center" bg="gray.200">
-          <Button colorScheme="pink">Logout</Button>
+        <Flex py="2" alignItems="center" justifyContent="center" bg="gray.200">
+          <Button colorScheme="pink" onClick={handleLogout}>Logout</Button>
         </Flex>
       </Grid>
 

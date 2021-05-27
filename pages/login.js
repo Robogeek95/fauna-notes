@@ -5,7 +5,15 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Box, Container, Flex, Grid, Stack } from "@chakra-ui/layout";
+import {
+  Box,
+  Center,
+  Container,
+  Flex,
+  Grid,
+  Link,
+  Stack,
+} from "@chakra-ui/layout";
 import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
@@ -90,6 +98,10 @@ export default function Login() {
               </Form>
             )}
           </Formik>
+
+          <Center mt="4">
+            <Link to="/signup">Signup</Link>
+          </Center>
         </Box>
       </Flex>
     </>
