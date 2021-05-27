@@ -12,6 +12,8 @@ import { Field, Form, Formik } from "formik";
 import React from "react";
 import NoteBar from "./noteBar";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Layout({
   markdownMode,
@@ -20,10 +22,24 @@ export default function Layout({
   notes,
 }) {
   const router = useRouter();
+  const { noteId } = router.query;
+  const [note, setNote] = useState({});
 
   function handleLogout() {
-    router.push("/login")
+    router.push("/login");
   }
+
+  function handleUpdateTitle(e) {
+    e.preventDefault();
+    setNote({ ...note, title: e.target.value });
+  }
+
+  useEffect(() => {
+    if (noteId) {
+      let noteIndex = notes.findIndex((note) => note.noteId === noteId);
+      setNote(notes[noteIndex]);
+    }
+  }, [noteId]);
 
   return (
     <Grid templateColumns={"2fr 6fr"} h="100vh">
@@ -55,7 +71,9 @@ export default function Layout({
         </Grid>
 
         <Flex py="2" alignItems="center" justifyContent="center" bg="gray.200">
-          <Button colorScheme="pink" onClick={handleLogout}>Logout</Button>
+          <Button colorScheme="pink" onClick={handleLogout}>
+            Logout
+          </Button>
         </Flex>
       </Grid>
 
@@ -63,18 +81,12 @@ export default function Layout({
       <Grid templateRows="auto 1fr" sx={{ position: "relative" }}>
         {/* nav */}
         <Flex alignItems="center" justifyContent="space-between" p={4}>
-          <HStack spacing={5}>
-            {/* title */}
-            <span>My first note</span>
-
-            {/* markdown toggle */}
-            <Button onClick={() => setMarkdownMode(!markdownMode)}>
-              <HStack>
-                <span>Markdown</span>
-                {markdownMode ? <ViewIcon /> : <ViewOffIcon />}
-              </HStack>
-            </Button>
-          </HStack>
+          {/* title */}
+          <Input
+            value={note ? note.title : "untitled"}
+            mr="5"
+            onChange={handleUpdateTitle}
+          />
 
           <Button>Save</Button>
         </Flex>
