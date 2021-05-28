@@ -12,12 +12,12 @@ const NoteBar = ({ note }) => {
   const { noteId } = router.query;
 
   let noteBg =
-    noteId === note.ts.toString() ? "blue.100" : focus ? "gray.200" : "";
+    noteId === note.ref["@ref"].id.toString() ? "blue.100" : focus ? "gray.200" : "";
 
   return (
     <>
       <Flex
-        onClick={() => router.push(`${note.ts}`)}
+        onClick={() => router.push(`${note.ref["@ref"].id}`)}
         onMouseOver={() => setFocus(true)}
         onMouseLeave={() => setFocus(false)}
         alignItems="center"
