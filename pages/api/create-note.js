@@ -12,7 +12,7 @@ export default async function createNote(req, res) {
 
     serverClient
       .query(
-        Create(Collection("posts"), {
+        Create(Collection("notes"), {
           data: { title, content },
         })
       )
