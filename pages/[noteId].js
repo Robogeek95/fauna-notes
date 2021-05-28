@@ -76,7 +76,7 @@ export default function New() {
             <Button>Save</Button>
           </Flex>
 
-          <Content noteContent={note.content} setNoteContent={setNote} />
+          <Content note={note} setNote={setNote} />
         </Grid>
       ) : (
         <p>Oops! This Note is not found</p>

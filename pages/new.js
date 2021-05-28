@@ -84,7 +84,7 @@ export default function New() {
             </Button>
           </Flex>
 
-          <Content note={note} setNoteContent={setNote} />
+          <Content note={note} setNote={setNote} />
         </Grid>
       </Layout>
     </>
