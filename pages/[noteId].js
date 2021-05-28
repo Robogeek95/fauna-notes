@@ -16,17 +16,19 @@ export default function New() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { noteId } = router.query;
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    getNote();
+    if (noteId) {
+      getNote();
+    }
   }, [noteId]);
 
   const getNote = async () => {
     setLoading(true);
-    const response = await fetch("./api/get-note", {
-      method: "POST",
+    const response = await fetch(`./api/notes/${noteId}`, {
+      method: "GET",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ noteId }),
     });
 
     if (response.status !== 200) {
@@ -56,6 +58,45 @@ export default function New() {
     setNote({ ...note, title: e.target.value });
   }
 
+  // creates a new note
+  const handleUpdate = async () => {
+    setUpdating(true);
+    const { title, content } = note;
+    const response = await fetch(`./api/notes/${noteId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, content }),
+    });
+
+    if (response.status !== 200) {
+      setUpdating(false);
+      let description = await response.json().then((data) => {
+        console.log(data);
+        return data.error.description || data.error.message;
+      });
+
+      return toast({
+        title: "Error",
+        description,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+
+    response.json().then((resData) => {
+      // send a feedback alert
+      setUpdating(false);
+      toast({
+        title: "Success",
+        description: resData.message,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    });
+  };
+
   return (
     <Layout>
       {loading ? (
@@ -73,7 +114,13 @@ export default function New() {
               onChange={handleUpdateTitle}
             />
 
-            <Button>Save</Button>
+            <Button
+              isLoading={updating}
+              loadingText="Saving"
+              onClick={handleUpdate}
+            >
+              Save
+            </Button>
           </Flex>
 
           <Content note={note} setNote={setNote} />
