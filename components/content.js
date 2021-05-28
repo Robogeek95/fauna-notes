@@ -2,12 +2,11 @@ import { Box } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
 import React, { useEffect, useState } from "react";
 
-export default function Content({ noteContent, handleNoteChange }) {
-  const [content, setContent] = useState("");
-
-  useEffect(() => {
-    setContent(noteContent);
-  }, [noteContent]);
+export default function Content({ noteContent, setNoteContent }) {
+  function handleNoteChange(e) {
+    e.preventDefault();
+    setNoteContent({ note: e.target.text });
+  }
 
   return (
     <>
@@ -16,7 +15,7 @@ export default function Content({ noteContent, handleNoteChange }) {
         <Textarea
           placeholder="Start typing"
           onChange={handleNoteChange}
-          value={content}
+          value={noteContent}
           sx={{
             height: "100%",
             border: "none",

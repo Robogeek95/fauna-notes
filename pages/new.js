@@ -1,33 +1,39 @@
+import { Button } from "@chakra-ui/button";
+import { Input } from "@chakra-ui/input";
+import { Grid } from "@chakra-ui/layout";
 import { Text } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/layout";
 import { useEffect } from "react";
 import { useState } from "react";
 import Content from "../components/content";
 import Layout from "../components/layout";
-import libNotes from "../lib/notes.json";
 
 export default function New() {
-  const [markdownMode, setMarkdownMode] = useState(false);
   const [note, setNote] = useState("");
-  const [notes, setNotes] = useState("");
 
-  useEffect(() => {
-    setNotes(libNotes);
-  }, []);
-
-  function handleNoteChange(e) {
+  function handleUpdateTitle(e) {
     e.preventDefault();
-    setNote(e.target.text);
+    setNote({ ...note, title: e.target.value });
   }
 
   return (
     <>
-      <Layout
-        markdownMode={markdownMode}
-        setMarkdownMode={setMarkdownMode}
-        notes={notes}
-      >
-        <Content note={note} handleNoteChange={handleNoteChange} />
+      <Layout>
+        <Grid templateRows="auto 1fr" sx={{ position: "relative" }}>
+          {/* nav */}
+          <Flex alignItems="center" justifyContent="space-between" p={4}>
+            {/* title */}
+            <Input
+              value={note ? note.title : "untitled"}
+              mr="5"
+              onChange={handleUpdateTitle}
+            />
+
+            <Button>Save</Button>
+          </Flex>
+
+          <Content note={note} setNoteContent={setNote} />
+        </Grid>
       </Layout>
     </>
   );

@@ -14,17 +14,16 @@ import NoteBar from "./noteBar";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+import libNotes from "../lib/notes.json";
 
-export default function Layout({
-  markdownMode,
-  setMarkdownMode,
-  children,
-  notes,
-}) {
+export default function Layout({ children }) {
   const router = useRouter();
-  const { noteId } = router.query;
-  const [note, setNote] = useState({});
   const [error, setError] = useState("");
+  const [notes, setNotes] = useState("");
+
+  useEffect(() => {
+    setNotes(libNotes);
+  }, []);
 
   async function handleLogout() {
     const response = await fetch("/api/logout");
@@ -39,18 +38,6 @@ export default function Layout({
 
     window.localStorage.setItem("logout", Date.now());
   }
-
-  function handleUpdateTitle(e) {
-    e.preventDefault();
-    setNote({ ...note, title: e.target.value });
-  }
-
-  useEffect(() => {
-    if (noteId) {
-      let noteIndex = notes.findIndex((note) => note.noteId === noteId);
-      setNote(notes[noteIndex]);
-    }
-  }, [noteId]);
 
   return (
     <Grid templateColumns={"2fr 6fr"} h="100vh">
@@ -89,21 +76,7 @@ export default function Layout({
       </Grid>
 
       {/* main */}
-      <Grid templateRows="auto 1fr" sx={{ position: "relative" }}>
-        {/* nav */}
-        <Flex alignItems="center" justifyContent="space-between" p={4}>
-          {/* title */}
-          <Input
-            value={note ? note.title : "untitled"}
-            mr="5"
-            onChange={handleUpdateTitle}
-          />
-
-          <Button>Save</Button>
-        </Flex>
-
-        {children}
-      </Grid>
+      {children}
     </Grid>
   );
 }
