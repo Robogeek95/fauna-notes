@@ -31,7 +31,7 @@ export default function Layout({ children }) {
 
   const getNotes = async () => {
     setLoading(true);
-    const response = await fetch("./api/get-notes", {
+    const response = await fetch("./api/notes", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -59,7 +59,7 @@ export default function Layout({ children }) {
   };
 
   async function handleLogout() {
-    const response = await fetch("/api/logout");
+    const response = await fetch("./api/auth/logout");
 
     if (response.status !== 200) {
       let description = await response

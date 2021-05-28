@@ -46,7 +46,7 @@ export default function Signup() {
 
   const handleSignup = async (values, action) => {
     const { email, password, name } = values;
-    const response = await fetch("./api/signup", {
+    const response = await fetch("./api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password, name }),

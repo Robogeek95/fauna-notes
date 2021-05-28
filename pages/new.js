@@ -27,8 +27,7 @@ export default function New() {
   const handleCreate = async () => {
     setSaving(true);
     const { title, content } = note;
-    console.log({ title, content });
-    const response = await fetch("./api/create-note", {
+    const response = await fetch("./api/notes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, content }),
@@ -62,7 +61,7 @@ export default function New() {
       });
 
       // navigate to the page for created note
-      router.push(`/${resData.data.ts}`);
+      router.push(`/${resData.data.ref["@ref"].id}`);
     });
   };
 

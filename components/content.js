@@ -28,18 +28,6 @@ export default function Content({ note, setNote }) {
           }}
         />
       </Box>
-      {!note.content && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "140px",
-            pl: 8,
-            color: "gray.400",
-          }}
-        >
-          <p>markdown is supported</p>
-        </Box>
-      )}
     </>
   );
 }

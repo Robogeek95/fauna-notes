@@ -1,6 +1,6 @@
 import { query } from "faunadb";
 const { Match, Index, Login } = query;
-import { serverClient, serializeFaunaCookie } from "../../utils/fauna-auth";
+import { serverClient, serializeFaunaCookie } from "../../../utils/fauna-auth";
 
 export default async function signin(req, res) {
   const { email, password } = await req.body;
