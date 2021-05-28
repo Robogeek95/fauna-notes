@@ -12,6 +12,7 @@
     "@chakra-ui/react": "^1.6.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "faunadb": "^4.3.0",
     "formik": "^2.2.8",
     "framer-motion": "^4",
     "next": "10.2.3",

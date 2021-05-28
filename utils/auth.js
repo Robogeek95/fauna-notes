@@ -1,0 +1,26 @@
+import { useEffect } from "react";
+import Router from "next/router";
+
+export const withAuthSync = (Component) => {
+  const Wrapper = (props) => {
+    const syncLogout = (event) => {
+      if (event.key === "logout") {
+        console.log("logged out from storage!");
+        Router.push("/login");
+      }
+    };
+
+    useEffect(() => {
+      window.addEventListener("storage", syncLogout);
+
+      return () => {
+        window.removeEventListener("storage", syncLogout);
+        window.localStorage.removeItem("logout");
+      };
+    }, []);
+
+    return <Component {...props} />;
+  };
+
+  return Wrapper;
+};

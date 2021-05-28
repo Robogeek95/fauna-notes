@@ -24,9 +24,20 @@ export default function Layout({
   const router = useRouter();
   const { noteId } = router.query;
   const [note, setNote] = useState({});
+  const [error, setError] = useState("");
 
-  function handleLogout() {
-    router.push("/login");
+  async function handleLogout() {
+    const response = await fetch("/api/logout");
+
+    if (response.status !== 200) {
+      let description = await response
+        .json()
+        .then((data) => data.error.description);
+      setError(description);
+      return;
+    }
+
+    window.localStorage.setItem("logout", Date.now());
   }
 
   function handleUpdateTitle(e) {

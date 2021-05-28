@@ -2,17 +2,12 @@ import { Box } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
 import React, { useEffect, useState } from "react";
 
-export default function Content({ noteContent }) {
+export default function Content({ noteContent, handleNoteChange }) {
   const [content, setContent] = useState("");
 
   useEffect(() => {
     setContent(noteContent);
   }, [noteContent]);
-
-  function handleNoteChange(e) {
-    e.preventDefault();
-    setContent(e.target.text);
-  }
 
   return (
     <>

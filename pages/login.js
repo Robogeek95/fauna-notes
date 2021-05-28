@@ -5,6 +5,7 @@ import {
   FormLabel,
 } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
+import { Text } from "@chakra-ui/layout";
 import {
   Box,
   Center,
@@ -17,9 +18,11 @@ import {
 import { Field, Form, Formik } from "formik";
 import { useRouter } from "next/router";
 import React from "react";
+import { useState } from "react";
 
 export default function Login() {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   function validateEmail(value) {
     let error;
@@ -41,18 +44,34 @@ export default function Login() {
     return error;
   }
 
-  function submit(values, actions) {
-    setTimeout(() => {
-      actions.setSubmitting(false);
-      router.push("/");
-    }, 1000);
-  }
+  const handleLogin = async (values, action) => {
+    const { email, password } = values;
+    const response = await fetch("./api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.status !== 200) {
+      let description = await response
+        .json()
+        .then((data) => data.error.description);
+      setError(description);
+      return;
+    }
+
+    return response;
+  };
 
   return (
     <>
       <Flex justifyContent="center" py={10}>
         <Box w="30%" mt={12}>
-          <Formik initialValues={{ email: "", password: "" }} onSubmit={submit}>
+          <Box mb={3}>{error && <Text color="red.500">{error}</Text>}</Box>
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={handleLogin}
+          >
             {(formProps) => (
               <Form>
                 <Stack spacing={4}>

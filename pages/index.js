@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Content from "../components/content";
 import Layout from "../components/layout";
 import libNotes from "../lib/notes.json";
+import { withAuthSync } from "../utils/auth";
 
-export default function Home() {
+function Dashboard() {
   const [markdownMode, setMarkdownMode] = useState(false);
   const [notes, setNotes] = useState("");
 
@@ -29,3 +30,5 @@ export default function Home() {
     </>
   );
 }
+
+export default withAuthSync(Dashboard);
