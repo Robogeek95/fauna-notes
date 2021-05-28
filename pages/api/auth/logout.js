@@ -1,6 +1,6 @@
 import { query } from "faunadb";
 const { Logout } = query;
-import { serverClient, serializeFaunaCookie } from "../../utils/fauna-auth";
+import { serverClient, serializeFaunaCookie } from "../../../utils/fauna-auth";
 
 export default async function logout(req, res) {
   try {
