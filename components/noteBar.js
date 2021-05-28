@@ -12,12 +12,12 @@ const NoteBar = ({ note }) => {
   const { noteId } = router.query;
 
   let noteBg =
-    noteId === note.noteId ? "blue.100" : focus ? "gray.200" : "";
+    noteId === note.ts.toString() ? "blue.100" : focus ? "gray.200" : "";
 
   return (
     <>
       <Flex
-        onClick={() => router.push(note.noteId)}
+        onClick={() => router.push(`${note.ts}`)}
         onMouseOver={() => setFocus(true)}
         onMouseLeave={() => setFocus(false)}
         alignItems="center"
@@ -33,7 +33,7 @@ const NoteBar = ({ note }) => {
           textTransform: "capitalize",
         }}
       >
-        <span>{note.title}</span>
+        <span>{note.data.title}</span>
         {focus && (
           <IconButton
             size="sm"

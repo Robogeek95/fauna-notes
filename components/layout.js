@@ -4,7 +4,7 @@ import { FormControl } from "@chakra-ui/form-control";
 import { SearchIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Img } from "@chakra-ui/image";
 import { Input } from "@chakra-ui/input";
-import { Stack } from "@chakra-ui/layout";
+import { Center, Stack } from "@chakra-ui/layout";
 import { Flex } from "@chakra-ui/layout";
 import { HStack } from "@chakra-ui/layout";
 import { Grid } from "@chakra-ui/layout";
@@ -15,15 +15,48 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
 import libNotes from "../lib/notes.json";
+import { Spinner } from "@chakra-ui/spinner";
+import { useToast } from "@chakra-ui/toast";
 
 export default function Layout({ children }) {
   const router = useRouter();
+  const toast = useToast();
   const [error, setError] = useState("");
   const [notes, setNotes] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setNotes(libNotes);
+    getNotes();
   }, []);
+
+  const getNotes = async () => {
+    setLoading(true);
+    const response = await fetch("./api/get-notes", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (response.status !== 200) {
+      setLoading(false);
+      let description = await response.json().then((data) => {
+        console.log(data);
+        return data.error.description || data.error.message;
+      });
+
+      return toast({
+        title: "Error",
+        description,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+
+    response.json().then((resData) => {
+      setLoading(false);
+      setNotes(resData.data);
+    });
+  };
 
   async function handleLogout() {
     const response = await fetch("/api/logout");
@@ -60,8 +93,12 @@ export default function Layout({ children }) {
           </Stack>
 
           <Stack sx={{ overflowY: "scroll" }} px={3}>
-            {notes && notes.length > 0 ? (
-              notes.map((note) => <NoteBar note={note} />)
+            {loading ? (
+              <Center>
+                <Spinner />
+              </Center>
+            ) : notes && notes.length > 0 ? (
+              notes.map((note) => <NoteBar key={note.ts} note={note} />)
             ) : (
               <span>No notes</span>
             )}
