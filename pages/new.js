@@ -14,56 +14,12 @@ import { useRouter } from "next/router";
 
 export default function New() {
   const toast = useToast();
-  const router = useRouter();
   const [note, setNote] = useState({ title: "untitled" });
-  const [saving, setSaving] = useState(false);
 
   function handleUpdateTitle(e) {
     e.preventDefault();
     setNote({ ...note, title: e.target.value });
   }
-
-  // creates a new note
-  const handleCreate = async () => {
-    setSaving(true);
-    const { title, content } = note;
-    const response = await fetch("./api/notes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, content }),
-    });
-
-    if (response.status !== 200) {
-      setSaving(false);
-      let description = await response.json().then((data) => {
-        console.log(data);
-        return data.error.description || data.error.message;
-      });
-
-      return toast({
-        title: "Error",
-        description,
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-
-    response.json().then((resData) => {
-      // send a feedback alert
-      setSaving(false);
-      toast({
-        title: "Success",
-        description: resData.message,
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-
-      // navigate to the page for created note
-      router.push(`/${resData.data.ref["@ref"].id}`);
-    });
-  };
 
   return (
     <>
@@ -74,13 +30,7 @@ export default function New() {
             {/* title */}
             <Input value={note.title} mr="5" onChange={handleUpdateTitle} />
 
-            <Button
-              isLoading={saving}
-              loadingText="Saving"
-              onClick={handleCreate}
-            >
-              Save
-            </Button>
+            <Button loadingText="Saving">Save</Button>
           </Flex>
 
           <Content note={note} setNote={setNote} />
