@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/layout";
 import { Textarea } from "@chakra-ui/textarea";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 export default function Content({ note, setNote }) {
   function handleNoteChange(e) {
